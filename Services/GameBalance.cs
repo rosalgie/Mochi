@@ -5,24 +5,24 @@ namespace Mochi.Services;
 
 public static class GameBalance
 {
-    // background decay (per 30-second tick)
+    // background decay (per 3-minute tick)
     public const double BaseHungerDecayPerTick = 2.0;
-    public const double BaseEnergyDecayPerTick = -1.5;
-    public const double BaseHappinessDecayPerTick = -1.0;
+    public const double BaseEnergyDecayPerTick = -2.0;
+    public const double BaseHappinessDecayPerTick = -1.5;
 
     // while asleep: energy recovers, hunger still rises, happiness stable
-    public const double SleepEnergyRecoveryPerTick = 3.0;
-    public const double SleepHungerPerTick = 2.0;
+    public const double SleepEnergyRecoveryPerTick = 12.0;
+    public const double SleepHungerPerTick = 3.0;
 
-    // time-away decay (minute per decay)
-    public const double TimeAwayHungerPerMinute = 0.5;
-    public const double TimeAwayEnergyPerMinute = -0.3;
-    public const double TimeAwayHappinessPerMinute = -0.3;
+    // time-away decay (per minute away)
+    public const double TimeAwayHungerPerMinute = 0.15;
+    public const double TimeAwayEnergyPerMinute = -0.1;
+    public const double TimeAwayHappinessPerMinute = -0.08;
     public const int TimeAwayMaxMinutes = 1440; // Cap at 24 hours
 
     // decay tick interval and save frequency
-    public const int DecayTickIntervalSeconds = 30;
-    public const int SaveEveryNTicks = 5; // Save every 5 ticks (~2.5 min)
+    public const int DecayTickIntervalSeconds = 180;
+    public const int SaveEveryNTicks = 2; // Save every 2 ticks (~6 min)
 
     // mood thresholds (wellness score)
     public const double MoodEcstaticThreshold = 80.0;
