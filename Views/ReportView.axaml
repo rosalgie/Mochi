@@ -12,8 +12,8 @@
         <vm:ReportViewModel />
     </Design.DataContext>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,24,20,8">
-        <StackPanel Spacing="16" HorizontalAlignment="Stretch">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="16" HorizontalAlignment="Stretch" Margin="20,24,20,16">
 
             <TextBlock Text="Activity Report"
                        FontSize="24" FontWeight="Bold"
