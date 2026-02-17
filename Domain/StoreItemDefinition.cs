@@ -1,6 +1,6 @@
 namespace Mochi.Domain;
 
-public record ShopItemDefinition(
+public record StoreItemDefinition(
     string Name,
     int Price,
     string Category,

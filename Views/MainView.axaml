@@ -38,12 +38,12 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding NavigateShopCommand}"
+                <Button Command="{Binding NavigateStoreCommand}"
                         Classes="navBtn"
-                        Classes.active="{Binding IsShopSelected}">
+                        Classes.active="{Binding IsStoreSelected}">
                     <StackPanel HorizontalAlignment="Center" Spacing="2">
                         <TextBlock Text="🛒" FontSize="20" HorizontalAlignment="Center" />
-                        <TextBlock Text="Shop" FontSize="10" HorizontalAlignment="Center" />
+                        <TextBlock Text="Store" FontSize="10" HorizontalAlignment="Center" />
                     </StackPanel>
                 </Button>
 

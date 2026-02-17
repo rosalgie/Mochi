@@ -20,7 +20,7 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsHomeSelected))]
     [NotifyPropertyChangedFor(nameof(IsCareSelected))]
-    [NotifyPropertyChangedFor(nameof(IsShopSelected))]
+    [NotifyPropertyChangedFor(nameof(IsStoreSelected))]
     [NotifyPropertyChangedFor(nameof(IsReportSelected))]
     [NotifyPropertyChangedFor(nameof(IsHelpSelected))]
     private ViewModelBase _currentPage;
@@ -35,7 +35,7 @@ public partial class MainViewModel : ViewModelBase
 
         HomeVm = new HomeViewModel(config, save);
         CareVm = new CareViewModel(config, save, appState, _careService);
-        ShopVm = new ShopViewModel(save, appState);
+        StoreVm = new StoreViewModel(save, appState);
         ReportVm = new ReportViewModel(config, save);
         HelpVm = new HelpViewModel();
 
@@ -59,13 +59,13 @@ public partial class MainViewModel : ViewModelBase
 
     public HomeViewModel HomeVm { get; }
     public CareViewModel CareVm { get; }
-    public ShopViewModel ShopVm { get; }
+    public StoreViewModel StoreVm { get; }
     public ReportViewModel ReportVm { get; }
     public HelpViewModel HelpVm { get; }
 
     public bool IsHomeSelected => CurrentPage == HomeVm;
     public bool IsCareSelected => CurrentPage == CareVm;
-    public bool IsShopSelected => CurrentPage == ShopVm;
+    public bool IsStoreSelected => CurrentPage == StoreVm;
     public bool IsReportSelected => CurrentPage == ReportVm;
     public bool IsHelpSelected => CurrentPage == HelpVm;
 
@@ -90,10 +90,10 @@ public partial class MainViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void NavigateShop()
+    private void NavigateStore()
     {
-        ShopVm.RefreshBalance();
-        CurrentPage = ShopVm;
+        StoreVm.RefreshBalance();
+        CurrentPage = StoreVm;
     }
 
     [RelayCommand]

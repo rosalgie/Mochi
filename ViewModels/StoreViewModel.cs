@@ -9,7 +9,7 @@ using Mochi.Services;
 
 namespace Mochi.ViewModels;
 
-public partial class ShopViewModel : ViewModelBase
+public partial class StoreViewModel : ViewModelBase
 {
     private readonly AppStateService _appState;
     private readonly SaveData _save;
@@ -17,7 +17,7 @@ public partial class ShopViewModel : ViewModelBase
 
     [ObservableProperty] private int _walletBalance;
 
-    public ShopViewModel(SaveData save, AppStateService appState)
+    public StoreViewModel(SaveData save, AppStateService appState)
     {
         _save = save;
         _appState = appState;
@@ -25,14 +25,14 @@ public partial class ShopViewModel : ViewModelBase
     }
 
     /// <summary>Design-time constructor.</summary>
-    public ShopViewModel() : this(SaveData.CreateDefault(), new AppStateService())
+    public StoreViewModel() : this(SaveData.CreateDefault(), new AppStateService())
     {
     }
 
-    public IReadOnlyList<ShopItemDefinition> ShopItems => GameBalance.ShopItems;
+    public IReadOnlyList<StoreItemDefinition> StoreItems => GameBalance.StoreItems;
 
     [RelayCommand]
-    private async Task Buy(ShopItemDefinition item)
+    private async Task Buy(StoreItemDefinition item)
     {
         if (_save.WalletBalance < item.Price)
         {

@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace Mochi.Views;
 
-public partial class ShopView : UserControl
+public partial class StoreView : UserControl
 {
-    public ShopView()
+    public StoreView()
     {
         InitializeComponent();
     }

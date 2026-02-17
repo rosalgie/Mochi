@@ -5,16 +5,16 @@
              xmlns:vm="using:Mochi.ViewModels"
              xmlns:domain="using:Mochi.Domain"
              mc:Ignorable="d" d:DesignWidth="405" d:DesignHeight="620"
-             x:Class="Mochi.Views.ShopView"
-             x:DataType="vm:ShopViewModel">
+             x:Class="Mochi.Views.StoreView"
+             x:DataType="vm:StoreViewModel">
 
     <Design.DataContext>
-        <vm:ShopViewModel />
+        <vm:StoreViewModel />
     </Design.DataContext>
 
     <StackPanel Spacing="20" Margin="20,24" HorizontalAlignment="Stretch">
 
-        <TextBlock Text="Pet Shop"
+        <TextBlock Text="Pet Store"
                    FontSize="24" FontWeight="Bold"
                    HorizontalAlignment="Center" />
 
@@ -29,7 +29,7 @@
             </StackPanel>
         </Border>
 
-        <!-- Shop Items -->
+        <!-- Store Items -->
         <Border Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
                 CornerRadius="12"
                 Padding="16"
@@ -38,14 +38,14 @@
                 <TextBlock Text="Available Items" FontWeight="SemiBold" FontSize="14" Opacity="0.7"
                            Margin="0,0,0,8" />
 
-                <ItemsControl ItemsSource="{Binding ShopItems}">
+                <ItemsControl ItemsSource="{Binding StoreItems}">
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="domain:ShopItemDefinition">
+                        <DataTemplate x:DataType="domain:StoreItemDefinition">
                             <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
                                     BorderThickness="0,0,0,1" Padding="0,8" Margin="0,0,0,4">
                                 <DockPanel>
                                     <Button Content="Buy"
-                                            Command="{Binding $parent[UserControl].((vm:ShopViewModel)DataContext).BuyCommand}"
+                                            Command="{Binding $parent[UserControl].((vm:StoreViewModel)DataContext).BuyCommand}"
                                             CommandParameter="{Binding}"
                                             DockPanel.Dock="Right"
                                             Padding="12,6"

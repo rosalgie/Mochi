@@ -99,8 +99,8 @@ public static class GameBalance
         [CareAction.Clean] = 5
     };
 
-    // economy: shop items (temporary decay modifier buffs)
-    public static readonly IReadOnlyList<ShopItemDefinition> ShopItems =
+    // economy: Store items (temporary decay modifier buffs)
+    public static readonly IReadOnlyList<StoreItemDefinition> StoreItems =
     [
         new("Premium Food", 10, "Food", 2, 0.5, 1.0, 1.0),
         new("Toy", 15, "Toys", 2, 1.0, 1.0, 0.5),
