@@ -27,8 +27,7 @@
                     Margin="20,0">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="8">
                     <TextBlock Text="🐕" FontSize="64" HorizontalAlignment="Center" />
-                    <TextBlock Text="(sprite placeholder)" FontSize="12"
-                               Opacity="0.5" HorizontalAlignment="Center" />
+                    
                 </StackPanel>
             </Border>
 
