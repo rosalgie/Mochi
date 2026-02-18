@@ -129,7 +129,8 @@ public partial class CareViewModel : ViewModelBase
         string? msg = _careService.PerformAction(action, PetName);
         if (msg == null) return;
 
-        int reward = GameBalance.CareActionRewards[action];
+        double coinMult = GameBalance.DifficultySettings[_config.Difficulty].CoinMult;
+        int reward = Math.Max(1, (int)Math.Round(GameBalance.CareActionRewards[action] * coinMult));
         _save.WalletBalance += reward;
         _save.Transactions.Add(new Transaction(reward, false, "CareReward", msg));
 

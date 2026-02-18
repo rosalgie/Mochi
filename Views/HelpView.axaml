@@ -84,14 +84,16 @@
                                Text="On the Care tab, you can perform four actions to look after your pet. Each action has a cooldown before you can use it again:" />
                     <StackPanel Spacing="4" Margin="8,0,0,0">
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                                   Text="&#x2022;  Feed (15s cooldown): Reduces hunger by 25, slightly boosts energy and happiness. Earns 5 coins." />
+                                   Text="&#x2022;  Feed (20s cooldown): Reduces hunger by 25, slightly boosts energy and happiness. Earns 4 coins." />
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                                   Text="&#x2022;  Play (30s cooldown): Big happiness boost (+20), but costs some energy and slightly increases hunger. Earns 8 coins." />
+                                   Text="&#x2022;  Play (40s cooldown): Big happiness boost (+20), but costs some energy and slightly increases hunger. Earns 6 coins." />
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                                   Text="&#x2022;  Sleep (60s cooldown): Puts your pet to sleep. While asleep, energy recovers rapidly and hunger rises slowly. Tap again to wake up. Earns 3 coins." />
+                                   Text="&#x2022;  Sleep (45s cooldown): Puts your pet to sleep. While asleep, energy recovers rapidly and hunger rises slowly. Tap again to wake up. Earns 2 coins." />
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                                   Text="&#x2022;  Clean (15s cooldown): Nice happiness boost (+15), costs a little energy. Earns 5 coins." />
+                                   Text="&#x2022;  Clean (20s cooldown): Nice happiness boost (+15), costs a little energy. Earns 4 coins." />
                     </StackPanel>
+                    <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
+                               Text="Cooldown times shown are for Normal difficulty. On Easy, cooldowns are 15% shorter. On Hard, cooldowns are 20% longer." />
                     <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
                                Text="Note: You cannot feed, play with, or clean your pet while it is asleep. Only the Sleep button works (as a Wake Up toggle). Your pet will also wake up automatically once its energy is fully restored." />
                 </StackPanel>
@@ -103,14 +105,14 @@
                 <StackPanel Spacing="8">
                     <TextBlock Text="Difficulty Levels" FontWeight="SemiBold" FontSize="16" />
                     <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                               Text="The difficulty you chose at setup affects two things:" />
+                               Text="The difficulty you chose at setup affects several things: care action effectiveness, stat decay speed, coin earnings, cooldown speed, and your starting wallet (Easy: 15 coins, Normal: 10, Hard: 5):" />
                     <StackPanel Spacing="4" Margin="8,0,0,0">
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                                   Text="&#x2022;  Easy: Care actions are 30% more effective, stats decay 30% slower. Great for a relaxed experience." />
+                                   Text="&#x2022;  Easy: Care actions are 30% more effective, stats decay 30% slower, you earn 30% more coins, cooldowns are 15% shorter, and you start with 15 coins (return bonus capped at 75)." />
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                                   Text="&#x2022;  Normal: Standard balance. Actions and decay work at their base values." />
+                                   Text="&#x2022;  Normal: Standard balance. Actions, decay, coin rewards, and cooldowns work at their base values. You start with 10 coins (return bonus capped at 35)." />
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                                   Text="&#x2022;  Hard: Care actions are 30% less effective, stats decay 30% faster. A real challenge!" />
+                                   Text="&#x2022;  Hard: Care actions are 30% less effective, stats decay 30% faster, you earn half as many coins, cooldowns are 20% longer, and you start with only 5 coins (return bonus capped at 20). A real challenge!" />
                     </StackPanel>
                 </StackPanel>
             </Border>
@@ -145,9 +147,9 @@
                     <TextBlock Text="Earning Coins" FontWeight="SemiBold" FontSize="14" Margin="0,4,0,0" />
                     <StackPanel Spacing="4" Margin="8,0,0,0">
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                                   Text="&#x2022;  Care Actions: Every care action earns coins: Feed (+5), Play (+8), Sleep (+3), Clean (+5)." />
+                                   Text="&#x2022;  Care Actions: Every care action earns coins: Feed (+4), Play (+6), Sleep (+2), Clean (+4) at Normal difficulty. On Easy you earn 30% more, and on Hard you earn half as many." />
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                                   Text="&#x2022;  Return Bonus: When you come back after being away, you earn 1 coin for every 5 minutes you were gone, up to a maximum of 50 coins. This rewards checking in regularly!" />
+                                   Text="&#x2022;  Return Bonus: When you come back after being away, you earn 1 coin for every 5 minutes you were gone, scaled by your difficulty and capped at 75 (Easy), 35 (Normal), or 20 (Hard) coins." />
                     </StackPanel>
                     <TextBlock Text="Spending Coins" FontWeight="SemiBold" FontSize="14" Margin="0,4,0,0" />
                     <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
@@ -168,13 +170,13 @@
                     <TextBlock Text="Available Items" FontWeight="SemiBold" FontSize="14" Margin="0,4,0,0" />
                     <StackPanel Spacing="4" Margin="8,0,0,0">
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                                   Text="&#x2022;  Premium Food (10 coins, 2 days): Hunger decays 50% slower. Great if you can't check in as often." />
+                                   Text="&#x2022;  Premium Food (15 coins, 2 days): Hunger decays 50% slower. Great if you can't check in as often." />
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                                   Text="&#x2022;  Toy (15 coins, 2 days): Happiness decays 50% slower. Keeps your pet cheerful longer." />
+                                   Text="&#x2022;  Toy (20 coins, 2 days): Happiness decays 50% slower. Keeps your pet cheerful longer." />
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                                   Text="&#x2022;  Comfy Bed (25 coins, 3 days): Energy decays 50% slower. Your pet stays energized." />
+                                   Text="&#x2022;  Comfy Bed (35 coins, 3 days): Energy decays 50% slower. Your pet stays energized." />
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                                   Text="&#x2022;  Medicine (20 coins, 1 day): All stats decay 30% slower. A short but powerful all-around boost." />
+                                   Text="&#x2022;  Medicine (30 coins, 1 day): All stats decay 30% slower. A short but powerful all-around boost." />
                     </StackPanel>
                     <TextBlock Text="How Buffs Work" FontWeight="SemiBold" FontSize="14" Margin="0,4,0,0" />
                     <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"

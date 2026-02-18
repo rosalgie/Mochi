@@ -57,7 +57,8 @@ public partial class FirstLaunchViewModel(AppStateService appState) : ViewModelB
         await appState.SaveConfigAsync(config);
 
         // Create and save default save data
-        SaveData save = SaveData.CreateDefault();
+        int startingWallet = GameBalance.StartingWallet[config.Difficulty];
+        SaveData save = SaveData.CreateDefault(startingWallet);
         await appState.SaveSaveAsync(save);
 
         // Navigate to main

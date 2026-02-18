@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Mochi.Domain;
 
@@ -34,7 +35,15 @@ public static class GameBalance
     // economy: return bonus
     public const int ReturnBonusCoinsPerInterval = 1;
     public const int ReturnBonusIntervalMinutes = 5;
-    public const int ReturnBonusMaxCoins = 50;
+    public const int ReturnBonusMaxCoinsBase = 50;
+
+    // per-difficulty return bonus caps
+    public static readonly Dictionary<Difficulty, int> ReturnBonusMaxCoins = new()
+    {
+        [Difficulty.Easy] = 75,
+        [Difficulty.Normal] = 35,
+        [Difficulty.Hard] = 20
+    };
 
     // care action base effects
     // (HungerDelta, EnergyDelta, HappinessDelta)
@@ -47,24 +56,42 @@ public static class GameBalance
         [CareAction.Clean] = (0, -5, +15)
     };
 
-    // cooldown durations (seconds)
+    // cooldown durations (seconds) — base values, scaled by difficulty
     public static readonly Dictionary<CareAction, int> CooldownSeconds = new()
     {
-        [CareAction.Feed] = 15,
-        [CareAction.Play] = 30,
-        [CareAction.Sleep] = 60,
-        [CareAction.Clean] = 15
+        [CareAction.Feed] = 20,
+        [CareAction.Play] = 40,
+        [CareAction.Sleep] = 45,
+        [CareAction.Clean] = 20
+    };
+
+    // difficulty cooldown multiplier (higher = longer cooldowns = slower income)
+    public static readonly Dictionary<Difficulty, double> CooldownMultiplier = new()
+    {
+        [Difficulty.Easy] = 0.85,
+        [Difficulty.Normal] = 1.0,
+        [Difficulty.Hard] = 1.2
+    };
+
+    // starting wallet per difficulty
+    public static readonly Dictionary<Difficulty, int> StartingWallet = new()
+    {
+        [Difficulty.Easy] = 15,
+        [Difficulty.Normal] = 10,
+        [Difficulty.Hard] = 5
     };
 
     // diff config
     // ActionMult: scales care action effectiveness (higher = more effective)
     // DecayMult: scales how fast stats worsen (higher = faster decay)
-    public static readonly Dictionary<Difficulty, (double ActionMult, double DecayMult)> DifficultySettings = new()
-    {
-        [Difficulty.Easy] = (1.3, 0.7),
-        [Difficulty.Normal] = (1.0, 1.0),
-        [Difficulty.Hard] = (0.7, 1.3)
-    };
+    // CoinMult: scales coin rewards (higher = more coins)
+    public static readonly Dictionary<Difficulty, (double ActionMult, double DecayMult, double CoinMult)>
+        DifficultySettings = new()
+        {
+            [Difficulty.Easy] = (1.3, 0.7, 1.3),
+            [Difficulty.Normal] = (1.0, 1.0, 1.0),
+            [Difficulty.Hard] = (0.7, 1.3, 0.5)
+        };
 
     // personality action bonuses
     // flat bonuses added to specific actions AFTER difficulty scaling
@@ -90,21 +117,31 @@ public static class GameBalance
             [Personality.Independent] = (0.85, 0.85, 0.85)
         };
 
-    // economy: coins earned per care action
+    // economy: coins earned per care action (base, scaled by CoinMult)
     public static readonly Dictionary<CareAction, int> CareActionRewards = new()
     {
-        [CareAction.Feed] = 5,
-        [CareAction.Play] = 8,
-        [CareAction.Sleep] = 3,
-        [CareAction.Clean] = 5
+        [CareAction.Feed] = 4,
+        [CareAction.Play] = 6,
+        [CareAction.Sleep] = 2,
+        [CareAction.Clean] = 4
     };
 
     // economy: Store items (temporary decay modifier buffs)
     public static readonly IReadOnlyList<StoreItemDefinition> StoreItems =
     [
-        new("Premium Food", 10, "Food", 2, 0.5, 1.0, 1.0),
-        new("Toy", 15, "Toys", 2, 1.0, 1.0, 0.5),
-        new("Comfy Bed", 25, "Comfort", 3, 1.0, 0.5, 1.0),
-        new("Medicine", 20, "Health", 1, 0.7, 0.7, 0.7)
+        new("Premium Food", 15, "Food", 2, 0.5, 1.0, 1.0),
+        new("Toy", 20, "Toys", 2, 1.0, 1.0, 0.5),
+        new("Comfy Bed", 35, "Comfort", 3, 1.0, 0.5, 1.0),
+        new("Medicine", 30, "Health", 1, 0.7, 0.7, 0.7)
     ];
+
+    /// <summary>
+    ///     Returns the effective cooldown for an action, scaled by difficulty.
+    /// </summary>
+    public static int GetEffectiveCooldown(CareAction action, Difficulty difficulty)
+    {
+        int baseCooldown = CooldownSeconds[action];
+        double mult = CooldownMultiplier[difficulty];
+        return Math.Max(1, (int)Math.Round(baseCooldown * mult));
+    }
 }

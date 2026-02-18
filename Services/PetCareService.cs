@@ -30,7 +30,7 @@ public class PetCareService(PetState pet, AppConfig config)
 
         // Apply base effects scaled by difficulty
         (int baseH, int baseE, int baseHap) = GameBalance.ActionEffects[action];
-        double actionMult = GameBalance.DifficultySettings[config.Difficulty].ActionMult;
+        (double actionMult, _, _) = GameBalance.DifficultySettings[config.Difficulty];
 
         int deltaH = (int)Math.Round(baseH * actionMult);
         int deltaE = (int)Math.Round(baseE * actionMult);
@@ -74,7 +74,7 @@ public class PetCareService(PetState pet, AppConfig config)
         if (!_lastActionTimes.TryGetValue(action, out DateTime lastUse))
             return true;
 
-        int cooldown = GameBalance.CooldownSeconds[action];
+        int cooldown = GameBalance.GetEffectiveCooldown(action, config.Difficulty);
         return (DateTime.UtcNow - lastUse).TotalSeconds >= cooldown;
     }
 
@@ -86,7 +86,7 @@ public class PetCareService(PetState pet, AppConfig config)
         if (!_lastActionTimes.TryGetValue(action, out DateTime lastUse))
             return 0;
 
-        int cooldown = GameBalance.CooldownSeconds[action];
+        int cooldown = GameBalance.GetEffectiveCooldown(action, config.Difficulty);
         double elapsed = (DateTime.UtcNow - lastUse).TotalSeconds;
         return Math.Max((int)Math.Ceiling(cooldown - elapsed), 0);
     }
@@ -108,7 +108,7 @@ public class PetCareService(PetState pet, AppConfig config)
             buffHappiness *= buff.HappinessDecayMult;
         }
 
-        double diffDecay = GameBalance.DifficultySettings[config.Difficulty].DecayMult;
+        (_, double diffDecay, _) = GameBalance.DifficultySettings[config.Difficulty];
         (double Hunger, double Energy, double Happiness) persDecay =
             GameBalance.PersonalityDecayMods[config.Personality];
 
@@ -147,7 +147,7 @@ public class PetCareService(PetState pet, AppConfig config)
         double minutes = Math.Min(timeAway.TotalMinutes, GameBalance.TimeAwayMaxMinutes);
         if (minutes < 1) return;
 
-        double diffDecay = GameBalance.DifficultySettings[config.Difficulty].DecayMult;
+        (_, double diffDecay, _) = GameBalance.DifficultySettings[config.Difficulty];
         (double Hunger, double Energy, double Happiness) persDecay =
             GameBalance.PersonalityDecayMods[config.Personality];
 

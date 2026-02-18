@@ -12,12 +12,12 @@ public class SaveData
     public List<Transaction> Transactions { get; set; } = [];
     public List<ActiveBuff> ActiveBuffs { get; set; } = [];
 
-    public static SaveData CreateDefault()
+    public static SaveData CreateDefault(int startingWallet = 10)
     {
         SaveData save = new()
         {
             LastOpenedUtc = DateTime.UtcNow,
-            WalletBalance = 50,
+            WalletBalance = startingWallet,
             Pet = new PetState
             {
                 Hunger = 20,

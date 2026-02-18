@@ -33,7 +33,10 @@ public class AppStateService
 
         if (save == null)
         {
-            save = SaveData.CreateDefault();
+            int startingWallet = CurrentConfig != null
+                ? GameBalance.StartingWallet[CurrentConfig.Difficulty]
+                : 10;
+            save = SaveData.CreateDefault(startingWallet);
         }
         else
         {
@@ -47,21 +50,25 @@ public class AppStateService
                 save.History.Add(new HistoryEntry($"Returned after {awayMessage}"));
 
                 // Apply stat decay for time away
-                if (CurrentConfig != null) PetCareService.ApplyTimeAwayDecay(save.Pet, CurrentConfig, away);
-
-                // Return bonus coins
-                int bonus = Math.Min(
-                    (int)(away.TotalMinutes / GameBalance.ReturnBonusIntervalMinutes)
-                    * GameBalance.ReturnBonusCoinsPerInterval,
-                    GameBalance.ReturnBonusMaxCoins);
-
-                if (bonus > 0)
+                if (CurrentConfig != null)
                 {
-                    save.WalletBalance += bonus;
-                    save.Transactions.Add(new Transaction(
-                        bonus, false, "ReturnBonus",
-                        $"Welcome back bonus ({awayMessage} away)"));
-                    save.History.Add(new HistoryEntry($"Earned {bonus} coins for returning"));
+                    PetCareService.ApplyTimeAwayDecay(save.Pet, CurrentConfig, away);
+
+                    // Return bonus coins (scaled by difficulty)
+                    double coinMult = GameBalance.DifficultySettings[CurrentConfig.Difficulty].CoinMult;
+                    int maxBonus = GameBalance.ReturnBonusMaxCoins[CurrentConfig.Difficulty];
+                    int rawBonus = (int)(away.TotalMinutes / GameBalance.ReturnBonusIntervalMinutes)
+                        * GameBalance.ReturnBonusCoinsPerInterval;
+                    int bonus = Math.Min((int)Math.Round(rawBonus * coinMult), maxBonus);
+
+                    if (bonus > 0)
+                    {
+                        save.WalletBalance += bonus;
+                        save.Transactions.Add(new Transaction(
+                            bonus, false, "ReturnBonus",
+                            $"Welcome back bonus ({awayMessage} away)"));
+                        save.History.Add(new HistoryEntry($"Earned {bonus} coins for returning"));
+                    }
                 }
             }
 
