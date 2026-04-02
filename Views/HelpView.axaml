@@ -19,6 +19,84 @@
                        FontSize="24" FontWeight="Bold"
                        HorizontalAlignment="Center" />
 
+            <!-- Ask Mochi -->
+            <Border Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
+                    CornerRadius="12" Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Ask Mochi" FontWeight="SemiBold" FontSize="18" />
+                    <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
+                               Text="Interactive Q&amp;A that reads Mochi's live stats, buffs, and coins, then points you to the right page." />
+
+                    <Border Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
+                            BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                            BorderThickness="1"
+                            CornerRadius="10" Padding="12">
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Live Snapshot" FontWeight="SemiBold" FontSize="14" />
+                            <TextBlock Text="{Binding LiveStatusSummary}"
+                                       TextWrapping="Wrap" FontSize="13" LineHeight="20" />
+                            <TextBlock Text="{Binding LiveEconomySummary}"
+                                       TextWrapping="Wrap" FontSize="13" LineHeight="20" />
+                            <TextBlock Text="{Binding ActiveBuffSummary}"
+                                       TextWrapping="Wrap" FontSize="13" LineHeight="20" />
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Spacing="8">
+                        <Button Command="{Binding AskWhatShouldIDoNextCommand}"
+                                HorizontalContentAlignment="Left"
+                                Padding="12,10">
+                            <TextBlock Text="What should I do next?"
+                                       TextWrapping="Wrap" />
+                        </Button>
+                        <Button Command="{Binding AskWhyIsMochiSadCommand}"
+                                HorizontalContentAlignment="Left"
+                                Padding="12,10">
+                            <TextBlock Text="Why is Mochi sad?"
+                                       TextWrapping="Wrap" />
+                        </Button>
+                        <Button Command="{Binding AskHowDoBuffsWorkCommand}"
+                                HorizontalContentAlignment="Left"
+                                Padding="12,10">
+                            <TextBlock Text="How do buffs work?"
+                                       TextWrapping="Wrap" />
+                        </Button>
+                        <Button Command="{Binding AskHowIsMoodCalculatedCommand}"
+                                HorizontalContentAlignment="Left"
+                                Padding="12,10">
+                            <TextBlock Text="How is mood calculated?"
+                                       TextWrapping="Wrap" />
+                        </Button>
+                        <Button Command="{Binding AskHowDoesCostOfCareWorkCommand}"
+                                HorizontalContentAlignment="Left"
+                                Padding="12,10">
+                            <TextBlock Text="How does cost of care work?"
+                                       TextWrapping="Wrap" />
+                        </Button>
+                    </StackPanel>
+
+                    <Border Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
+                            BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                            BorderThickness="1"
+                            CornerRadius="10" Padding="12">
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="{Binding AskMochiPrompt}"
+                                       FontWeight="SemiBold"
+                                       FontSize="14" />
+                            <TextBlock Text="{Binding AskMochiAnswer}"
+                                       TextWrapping="Wrap"
+                                       FontSize="13"
+                                       LineHeight="20" />
+                            <Button Content="{Binding SuggestedNavigationLabel}"
+                                    Command="{Binding NavigateSuggestedPageCommand}"
+                                    IsVisible="{Binding HasSuggestedNavigation}"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,8" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
             <!-- What is Mochi? -->
             <Border Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
                     CornerRadius="12" Padding="16">
@@ -66,12 +144,12 @@
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
                                    Text="&#x2022;  Sad: Wellness 20-39. Give your pet some attention! :(" />
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                                   Text="&#x2022;  Miserable: Wellness below 20 D:" />
+                                   Text="&#x2022;  Miserable: Wellness below 20. Your pet needs help fast." />
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
                                    Text="&#x2022;  Sleeping: Shown whenever your pet is asleep." />
                     </StackPanel>
                     <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                               Text="Keep an eye on the mood indicator and speech bubble on the Home tab, cause they'll tell you how your pet feels." />
+                               Text="Keep an eye on the mood indicator and speech bubble on the Home tab, because they show how your pet feels." />
                 </StackPanel>
             </Border>
 
@@ -153,7 +231,7 @@
                     </StackPanel>
                     <TextBlock Text="Spending Coins" FontWeight="SemiBold" FontSize="14" Margin="0,4,0,0" />
                     <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                               Text="Visit the Store tab to spend your coins on items for your pet. Each itapplies a temporary buff that slows down stat decay, helping your pet stay happy and healthy with less effort. See the &quot;Buffs&quot; section below for details." />
+                               Text="Visit the Store tab to spend your coins on items for your pet. Each item applies a temporary buff that slows down stat decay, helping your pet stay happy and healthy with less effort. See the &quot;Buffs&quot; section below for details." />
                     <TextBlock Text="Tracking Finances" FontWeight="SemiBold" FontSize="14" Margin="0,4,0,0" />
                     <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
                                Text="The Report tab shows a complete breakdown of your earnings, spending, and spending by category. Every purchase and care reward is recorded as a transaction so you can see exactly where your coins went." />
@@ -180,7 +258,7 @@
                     </StackPanel>
                     <TextBlock Text="How Buffs Work" FontWeight="SemiBold" FontSize="14" Margin="0,4,0,0" />
                     <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                               Text="Each buff has a decay multiplier for Hunger, Energy, and Happiness. A multiplier of 0.5 means that stat decays at half its normal rate. When multiple buffs are active, their multipliers are multiplied together. For example, Premium Food (0.5× hunger) combined with Medicine (0.7× hunger) results in 0.35× hunger decay, making it very slow." />
+                               Text="Each buff has a decay multiplier for Hunger, Energy, and Happiness. A multiplier of 0.5 means that stat decays at half its normal rate. When multiple buffs are active, their multipliers are multiplied together. For example, Premium Food (0.5x hunger) combined with Medicine (0.7x hunger) results in 0.35x hunger decay, making it very slow." />
                     <TextBlock Text="Refreshing Buffs" FontWeight="SemiBold" FontSize="14" Margin="0,4,0,0" />
                     <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
                                Text="If you buy an item you already have an active buff for, the duration is refreshed (reset to its full length from now) rather than stacking a second copy. This means you can &quot;top off&quot; an expiring buff without waste." />
@@ -207,7 +285,7 @@
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
                                    Text="&#x2022;  Report: View your pet's profile, financial summary, spending breakdown, and full history log." />
                         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="20"
-                                   Text="&#x2022;  Help: You are here :) A complete guide to playing Mochi." />
+                                   Text="&#x2022;  Help: You are here. Read the guide or use Ask Mochi for instant page-specific answers." />
                     </StackPanel>
                 </StackPanel>
             </Border>
