@@ -19,7 +19,6 @@
                        FontSize="24" FontWeight="Bold"
                        HorizontalAlignment="Center" />
 
-            <!-- Config Summary Card -->
             <Border Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
                     CornerRadius="12"
                     Padding="16"
@@ -50,13 +49,12 @@
                 </StackPanel>
             </Border>
 
-            <!-- Spending Summary Card -->
             <Border Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
                     CornerRadius="12"
                     Padding="16"
                     Margin="8,0">
                 <StackPanel Spacing="8">
-                    <TextBlock Text="Spending Summary" FontWeight="SemiBold" FontSize="14" Opacity="0.7" />
+                    <TextBlock Text="Overall Summary" FontWeight="SemiBold" FontSize="14" Opacity="0.7" />
 
                     <DockPanel>
                         <TextBlock Text="Total Earned" DockPanel.Dock="Left" FontSize="13" />
@@ -98,13 +96,172 @@
                 </StackPanel>
             </Border>
 
-            <!-- History Card -->
+            <Border Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
+                    CornerRadius="12"
+                    Padding="16"
+                    Margin="8,0">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Customize Report" FontWeight="SemiBold" FontSize="14" Opacity="0.7" />
+
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Type" FontSize="12" Opacity="0.5" />
+                        <ComboBox ItemsSource="{Binding TransactionTypeOptions}"
+                                  SelectedItem="{Binding SelectedTransactionType}" />
+                    </StackPanel>
+
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Category" FontSize="12" Opacity="0.5" />
+                        <ComboBox ItemsSource="{Binding CategoryOptions}"
+                                  SelectedItem="{Binding SelectedCategory}" />
+                    </StackPanel>
+
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Sort" FontSize="12" Opacity="0.5" />
+                        <ComboBox ItemsSource="{Binding SortOptions}"
+                                  SelectedItem="{Binding SelectedSort}" />
+                    </StackPanel>
+
+                    <Button Content="Export CSV"
+                            Command="{Binding ExportCsvCommand}"
+                            HorizontalAlignment="Left"
+                            Padding="14,6" />
+
+                    <TextBlock Text="{Binding ExportStatusMessage}"
+                               FontSize="12"
+                               Opacity="0.6"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+            <Border Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
+                    CornerRadius="12"
+                    Padding="16"
+                    Margin="8,0">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Selection Analysis" FontWeight="SemiBold" FontSize="14" Opacity="0.7" />
+                    <TextBlock Text="{Binding SelectedViewDescription}"
+                               FontSize="12"
+                               Opacity="0.5"
+                               TextWrapping="Wrap" />
+
+                    <UniformGrid Columns="2" Rows="2" Margin="0,2,0,0">
+                        <StackPanel Spacing="2" Margin="0,0,8,8">
+                            <TextBlock Text="Transactions" FontSize="12" Opacity="0.5" />
+                            <TextBlock Text="{Binding FilteredTransactionCount}"
+                                       FontSize="18"
+                                       FontWeight="SemiBold" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="2" Margin="8,0,0,8">
+                            <TextBlock Text="Visible Income" FontSize="12" Opacity="0.5" />
+                            <TextBlock Text="{Binding FilteredIncomeTotal, StringFormat='${0}'}"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"
+                                       Foreground="#4CAF50" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="2" Margin="0,0,8,0">
+                            <TextBlock Text="Visible Expenses" FontSize="12" Opacity="0.5" />
+                            <TextBlock Text="{Binding FilteredExpenseTotal, StringFormat='${0}'}"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"
+                                       Foreground="#F44336" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="2" Margin="8,0,0,0">
+                            <TextBlock Text="Net Change" FontSize="12" Opacity="0.5" />
+                            <TextBlock Text="{Binding FilteredNetChangeDisplay}"
+                                       FontSize="18"
+                                       FontWeight="SemiBold" />
+                        </StackPanel>
+                    </UniformGrid>
+
+                    <TextBlock Text="{Binding SelectionInsight}"
+                               FontSize="12"
+                               Opacity="0.7"
+                               TextWrapping="Wrap" />
+
+                    <StackPanel Spacing="4"
+                                IsVisible="{Binding HasSelectionBreakdown}">
+                        <TextBlock Text="Current Category Mix" FontSize="12" Opacity="0.5" />
+                        <ItemsControl ItemsSource="{Binding SelectionBreakdown}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="domain:CategorySummary">
+                                    <DockPanel Margin="0,2">
+                                        <TextBlock Text="{Binding Category}" DockPanel.Dock="Left" FontSize="13" />
+                                        <TextBlock Text="{Binding Total, StringFormat='${0}'}"
+                                                   DockPanel.Dock="Right"
+                                                   HorizontalAlignment="Right"
+                                                   FontSize="13"
+                                                   Opacity="0.7" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
             <Border Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
                     CornerRadius="12"
                     Padding="16"
                     Margin="8,0">
                 <StackPanel Spacing="8">
-                    <TextBlock Text="History" FontWeight="SemiBold" FontSize="14" Opacity="0.7" />
+                    <TextBlock Text="Transaction History" FontWeight="SemiBold" FontSize="14" Opacity="0.7" />
+
+                    <TextBlock Text="{Binding FilteredEmptyStateMessage}"
+                               IsVisible="{Binding HasNoFilteredTransactions}"
+                               FontSize="13"
+                               Opacity="0.6"
+                               TextWrapping="Wrap" />
+
+                    <ItemsControl ItemsSource="{Binding FilteredTransactions}"
+                                  IsVisible="{Binding HasFilteredTransactions}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:ReportTransactionRow">
+                                <Border Padding="0,8"
+                                        BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                                        BorderThickness="0,0,0,1">
+                                    <StackPanel Spacing="4">
+                                        <DockPanel>
+                                            <TextBlock Text="{Binding AmountDisplay}"
+                                                       DockPanel.Dock="Right"
+                                                       HorizontalAlignment="Right"
+                                                       FontSize="13"
+                                                       FontWeight="SemiBold" />
+                                            <TextBlock Text="{Binding Description}"
+                                                       FontSize="13"
+                                                       FontWeight="SemiBold"
+                                                       TextWrapping="Wrap" />
+                                        </DockPanel>
+
+                                        <DockPanel>
+                                            <TextBlock Text="{Binding TimestampLocal, StringFormat={}{0:g}}"
+                                                       DockPanel.Dock="Right"
+                                                       HorizontalAlignment="Right"
+                                                       FontSize="11"
+                                                       Opacity="0.5"
+                                                       VerticalAlignment="Center" />
+                                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                                <TextBlock Text="{Binding CategoryLabel}" FontSize="12" Opacity="0.7" />
+                                                <TextBlock Text="|" FontSize="12" Opacity="0.5" />
+                                                <TextBlock Text="{Binding TypeLabel}" FontSize="12" Opacity="0.5" />
+                                            </StackPanel>
+                                        </DockPanel>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <Border Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
+                    CornerRadius="12"
+                    Padding="16"
+                    Margin="8,0">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Pet Activity" FontWeight="SemiBold" FontSize="14" Opacity="0.7" />
 
                     <ItemsControl ItemsSource="{Binding History}">
                         <ItemsControl.ItemTemplate>
